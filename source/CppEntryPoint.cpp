@@ -46,34 +46,38 @@ extern "C"
         // Receive kmeans answer.
 		const int totalByteToReceive = sizeof(double) * *ncol * *nclust;
 
-		unsigned char* raw_bytes = new unsigned char[totalByteToReceive];
+		bytes = ax::Server::Receive<double>(sockfd, 
+											answer,
+											totalByteToReceive);
 
-		int total_bytes_receive = 0;
+		// unsigned char* raw_bytes = new unsigned char[totalByteToReceive];
 
-		do
-		{
-			int bytes_left = totalByteToReceive - total_bytes_receive;
+		// int total_bytes_receive = 0;
+
+		// do
+		// {
+		// 	int bytes_left = totalByteToReceive - total_bytes_receive;
 			
-			unsigned char* raw_buffer = raw_bytes + total_bytes_receive;
-			int bytes = ax::Server::Receive<unsigned char>(sockfd,
-                                                           raw_buffer,
-                                                           bytes_left);
+		// 	unsigned char* raw_buffer = raw_bytes + total_bytes_receive;
+		// 	int bytes = ax::Server::Receive<unsigned char>(sockfd,
+  //                                                          raw_buffer,
+  //                                                          bytes_left);
 			
-			total_bytes_receive += bytes;
+		// 	total_bytes_receive += bytes;
 
-		} while(total_bytes_receive < totalByteToReceive);
+		// } while(total_bytes_receive < totalByteToReceive);
 
         // Copy kmeans answer in answer buffer.
 //		double* ans = (double*)raw_bytes;
 
-        std::size_t size_to_copy = totalByteToReceive;
-        std::memcpy((void*)answer, (const void*)raw_bytes, size_to_copy);
+        // std::size_t size_to_copy = totalByteToReceive;
+        // std::memcpy((void*)answer, (const void*)raw_bytes, size_to_copy);
         
 //		for(int i = 0; i < *ncol * *nclust; i++)
 //		{
 //			answer[i] = ans[i];
 //		}
 
-		delete[] raw_bytes;
+		// delete[] raw_bytes;
 	}
 }
